@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "610031862995",
+    "project_id": "buyintet",
+    "storage_bucket": "buyintet.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:610031862995:android:83327b66e4dfd83f640026",
+        "android_client_info": {
+          "package_name": "com.example.buy_management"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "610031862995-nocmn51a0i3mal79hacbmn29pb8g958m.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.buy_management",
+            "certificate_hash": "61e8d6a88aa87f0d897c81a09313ea7023550b7e"
+          }
+        },
+        {
+          "client_id": "610031862995-r339k661lq4j72734n5v9pvdgomeeqf5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBMupazAEstJ89twcdDNw0fQBoISY9Sgvs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "610031862995-r339k661lq4j72734n5v9pvdgomeeqf5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
