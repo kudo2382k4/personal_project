@@ -193,35 +193,73 @@ class _BudgetPageState extends State<BudgetPage> {
   // ── Dialog sửa ngân sách ──
   Future<void> _editBudget() async {
     final ctrl = TextEditingController(text: _budgetVM.budgetLimit.toInt().toString());
+    String? _errorText;
+
     await showDialog(
       context: context,
-      builder: (dialogContext) => AlertDialog(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-        title: const Text('Cài đặt hạn mức ngân sách'),
-        content: TextField(
-          controller: ctrl,
-          keyboardType: TextInputType.number,
-          decoration: const InputDecoration(suffixText: 'đ', labelText: 'Số tiền'),
-          autofocus: true,
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(dialogContext).pop(),
-            child: const Text('Hủy', style: TextStyle(color: Colors.grey)),
+      builder: (dialogContext) => StatefulBuilder(
+        builder: (ctx, setDialogState) => AlertDialog(
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+          title: const Text('Cài đặt hạn mức ngân sách'),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              TextField(
+                controller: ctrl,
+                keyboardType: TextInputType.number,
+                autofocus: true,
+                decoration: InputDecoration(
+                  suffixText: 'đ',
+                  labelText: 'Số tiền',
+                  errorText: _errorText,
+                  errorStyle: const TextStyle(color: Colors.red),
+                  focusedErrorBorder: const OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.red),
+                  ),
+                  errorBorder: const OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.red),
+                  ),
+                ),
+                onChanged: (_) {
+                  // Xoá lỗi khi người dùng bắt đầu sửa
+                  if (_errorText != null) setDialogState(() => _errorText = null);
+                },
+              ),
+              const SizedBox(height: 6),
+              const Text(
+                'Từ 1 đ đến 1.000.000.000 đ',
+                style: TextStyle(fontSize: 11, color: Colors.grey),
+              ),
+            ],
           ),
-          ElevatedButton(
-            onPressed: () async {
-              final amount = double.tryParse(ctrl.text.trim()) ?? 0;
-              Navigator.of(dialogContext).pop(); // đóng dialog trước
-              await _budgetVM.saveBudget(amount);
-            },
-            style: ElevatedButton.styleFrom(
-              backgroundColor: _red,
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(dialogContext).pop(),
+              child: const Text('Hủy', style: TextStyle(color: Colors.grey)),
             ),
-            child: const Text('Lưu', style: TextStyle(color: Colors.white)),
-          ),
-        ],
+            ElevatedButton(
+              onPressed: () async {
+                final amount = double.tryParse(ctrl.text.trim()) ?? 0;
+                if (amount <= 0) {
+                  setDialogState(() => _errorText = 'Ngân sách phải lớn hơn 0 đ');
+                  return;
+                }
+                if (amount > 1000000000) {
+                  setDialogState(() => _errorText = 'Ngân sách không được vượt quá 1.000.000.000 đ');
+                  return;
+                }
+                Navigator.of(dialogContext).pop();
+                await _budgetVM.saveBudget(amount);
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: _red,
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+              ),
+              child: const Text('Lưu', style: TextStyle(color: Colors.white)),
+            ),
+          ],
+        ),
       ),
     );
   }

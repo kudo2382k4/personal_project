@@ -314,10 +314,23 @@ Trả lời bằng tiếng Việt.''';
     required String category,
   }) async {
     final prompt = '''
-Bạn là một chuyên gia về giá cả thị trường tại Việt Nam.
-Tôi muốn mua món hàng: "$itemName" thuộc danh mục: "$category".
-Hãy gợi ý mức giá trung bình hoặc phổ biến nhất (đơn vị VNĐ) cho 1 đơn vị tính thông thường của món này ở thời điểm hiện tại.
-BẮT BUỘC trả về CHỈ MỘT CON SỐ DUY NHẤT (không có dấu phẩy hay dấu chấm phân cách hàng nghìn, không có chữ VNĐ, không giải thích). 
+Bạn là chuyên gia giá cả thị trường Việt Nam năm 2024-2025.
+Tôi cần biết giá bán lẻ thực tế tại chợ hoặc siêu thị của mặt hàng: "$itemName" (danh mục: "$category").
+
+Quy tắc xác định đơn vị và giá:
+- Thịt (heo, bò, gà, vịt, cá...): giá cho 1 kg
+- Rau củ, trái cây: giá cho 1 kg (hoặc 1 bó nếu là rau ăn lá bán theo bó ~200-300g)
+- Trứng: giá cho 1 vỉ 10 quả
+- Gia vị dạng lỏng (nước mắm, dầu ăn, tương...): giá cho chai 500ml-1 lít
+- Gia vị dạng khô/bột (muối, đường, bột ngọt, tiêu...): giá cho gói 500g-1 kg
+- Gạo, nếp: giá cho 1 kg
+- Đậu phụ/hũ: giá cho 1 bìa/hũ
+- Mì, bún, phở khô: giá cho 1 gói 500g
+- Nước uống, nước ngọt: giá cho 1 chai 500ml
+- Hàng đóng hộp, đồ khô: giá cho 1 đơn vị đóng gói thông thường nhỏ nhất
+
+Hãy trả về mức giá hợp lý, phổ biến nhất tại chợ/siêu thị Việt Nam.
+BẮT BUỘC trả về CHỈ MỘT CON SỐ NGUYÊN DUY NHẤT bằng chữ số (không dấu phẩy, không dấu chấm, không chữ VNĐ, không giải thích).
 ''';
 
     final body = jsonEncode({
